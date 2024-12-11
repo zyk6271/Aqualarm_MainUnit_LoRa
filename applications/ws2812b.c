@@ -89,7 +89,7 @@ void ws2812b_green(uint8_t id,uint8_t value)
 {
     if(value)
     {
-        for(uint8_t i=0;i<8;i++) Pixel_Buf[id][i] = ( (50 & (1 << (7 -i)))? (CODE_1):CODE_0 );//数组某一行0~7转化存放G
+        for(uint8_t i=0;i<8;i++) Pixel_Buf[id][i] = ( (25 & (1 << (7 -i)))? (CODE_1):CODE_0 );//数组某一行0~7转化存放G
     }
     else
     {
@@ -101,7 +101,7 @@ void ws2812b_red(uint8_t id,uint8_t value)
 {
     if(value)
     {
-        for(uint8_t i=8;i<16;i++) Pixel_Buf[id][i] = ( (50 & (1 << (15 -i)))? (CODE_1):CODE_0 );//数组某一行8-15转化存放R
+        for(uint8_t i=8;i<16;i++) Pixel_Buf[id][i] = ( (25 & (1 << (15 -i)))? (CODE_1):CODE_0 );//数组某一行8-15转化存放R
     }
     else
     {
@@ -113,7 +113,7 @@ void ws2812b_blue(uint8_t id,uint8_t value)
 {
     if(value)
     {
-        for(uint8_t i=16;i<24;i++) Pixel_Buf[id][i] = ( (50 & (1 << (23 -i)))? (CODE_1):CODE_0 );//数组某一行8-15转化存放R
+        for(uint8_t i=16;i<24;i++) Pixel_Buf[id][i] = ( (25 & (1 << (23 -i)))? (CODE_1):CODE_0 );//数组某一行8-15转化存放R
     }
     else
     {
