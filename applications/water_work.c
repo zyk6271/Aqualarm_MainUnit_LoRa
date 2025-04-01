@@ -110,6 +110,7 @@ void MasterSensorLeakEventCallback(void *parameter)
     DeviceStatus = MasterSensorLeak;
     gateway_warning_master_leak(1);
 }
+
 void MasterLowTempEventCallback(void *parameter)
 {
     valve_close();
@@ -152,6 +153,8 @@ void ValveRightFailEventCallback(void *parameter)
 
 void warning_init(void)
 {
+    radio_learn_timer = rt_timer_create("radio_learn", radio_learn_timer_callback, RT_NULL, 30*1000, RT_TIMER_FLAG_ONE_SHOT|RT_TIMER_FLAG_SOFT_TIMER);
+
     warning_event_bind(0,0,&NowEvent,RT_NULL);//本地存储器
     warning_event_bind(1,3,&ValveLeftFailEvent,ValveLeftFailEventCallback);
     warning_event_bind(2,3,&ValveRightFailEvent,ValveRightFailEventCallback);
@@ -162,8 +165,6 @@ void warning_init(void)
     warning_event_bind(7,1,&MasterSensorLostEvent,MasterSensorLostEventCallback);
     warning_event_bind(8,7,&MasterSensorLeakEvent,MasterSensorLeakEventCallback);
     warning_event_bind(9,2,&MasterLowTempEvent,MasterLowTempEventCallback);
-
-    radio_learn_timer = rt_timer_create("radio_learn", radio_learn_timer_callback, RT_NULL, 30*1000, RT_TIMER_FLAG_ONE_SHOT|RT_TIMER_FLAG_SOFT_TIMER);
 }
 
 uint32_t warning_status_get(void)

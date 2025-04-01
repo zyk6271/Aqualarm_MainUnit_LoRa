@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.rtthread.studio.debug.gdbjtag.stlink.launchConfigurationType">
 <stringAttribute key="ilg.gnumcueclipse.debug.gdbjtag.svdPath" value="${studio_install_path}\repo\Extract\Chip_Support_Packages\RealThread\STM32WL\0.2.6\debug\svd\STM32WLE5_CM4.svd"/>
-<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.connectMode" value="UR"/>
+<stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.connectMode" value="NORMAL"/>
 <stringAttribute key="org.eclipse.cdt.debug.gdbjtag.core.debugInterface" value="SWD"/>
 <intAttribute key="org.eclipse.cdt.debug.gdbjtag.core.delay" value="3"/>
 <booleanAttribute key="org.eclipse.cdt.debug.gdbjtag.core.doHalt" value="false"/>

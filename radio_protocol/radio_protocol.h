@@ -58,6 +58,7 @@ typedef struct
 
 #define NETID_REGION_NORWAY           0x01
 #define NETID_REGION_SWEDEN           0x02
+#define NETID_REGION_HONGKONG         0x03
 
 #define NET_REGION_SELECT             NETID_REGION_NORWAY
 #define DEVICE_TYPE_SELECT            DEVICE_TYPE_MAINUNIT

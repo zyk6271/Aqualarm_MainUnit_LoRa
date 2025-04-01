@@ -51,7 +51,10 @@ void key_on_click_handle(void)
     case SlaverOffline:
         break;
     case MasterSensorLost:
-        valve_open();
+        if(valve_open() == RT_EOK)//valve open success
+        {
+            gateway_control_master_control(1);
+        }
         break;
     case MasterSensorLeak:
         beep_three_times();
@@ -103,7 +106,10 @@ void key_off_click_handle(void)
     case SlaverOffline:
         break;
     case MasterSensorLost:
-        valve_close();
+        if(valve_close() == RT_EOK)//valve close success
+        {
+            gateway_control_master_control(0);
+        }
         beep_stop();
         break;
     case MasterSensorLeak:
@@ -180,7 +186,7 @@ void key_on_long_hold_handle(void)
             if(key_on_long_click == 0)
             {
                 key_on_long_click = 1;
-                valve_check();
+                //valve_check();
             }
         }
     }
