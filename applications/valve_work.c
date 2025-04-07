@@ -271,7 +271,7 @@ void valve_check(void)
 {
     if(valve_status == VALVE_STATUS_CLOSE)
     {
-        LOG_D("valve_check failed,valve is close");
+        LOG_E("valve_check failed,valve is close");
         return;
     }
 
