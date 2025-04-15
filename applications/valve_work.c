@@ -68,12 +68,8 @@ rt_err_t valve_open(void)
     DeviceStatus = ValveOpen;
     led_valve_on();
     beep_once();
+    valve_check_stop();
     valve_turn_control(1);
-
-    rt_timer_stop(valve_check_detect_low_timer);
-    rt_timer_stop(valve_check_detect_timeout_timer);
-    rt_timer_stop(valve_check_left_final_timer);
-    rt_timer_stop(valve_check_right_final_timer);
     rt_timer_start(valve_detect_once_timer);
 
     return RT_EOK;
@@ -91,12 +87,8 @@ rt_err_t valve_close(void)
     DeviceStatus = ValveClose;
     led_valve_off();
     beep_key_down();
+    valve_check_stop();
     valve_turn_control(-1);
-
-    rt_timer_stop(valve_check_detect_low_timer);
-    rt_timer_stop(valve_check_detect_timeout_timer);
-    rt_timer_stop(valve_check_left_final_timer);
-    rt_timer_stop(valve_check_right_final_timer);
     rt_timer_stop(valve_detect_once_timer);
 
     return RT_EOK;
@@ -272,7 +264,7 @@ void valve_check_right_final_timer_callback(void *parameter)
     }
 }
 
-void valve_check(void)
+void valve_check_start(void)
 {
     if(valve_status == VALVE_STATUS_CLOSE)
     {
@@ -306,9 +298,19 @@ void valve_check(void)
     }
 }
 
+void valve_check_stop(void)
+{
+    valve_left_check_start = 0;
+    valve_right_check_start = 0;
+    rt_timer_stop(valve_check_detect_low_timer);
+    rt_timer_stop(valve_check_detect_timeout_timer);
+    rt_timer_stop(valve_check_left_final_timer);
+    rt_timer_stop(valve_check_right_final_timer);
+}
+
 void valve_detect_once_timer_callback(void *parameter)
 {
-    valve_check();
+    valve_check_start();
 }
 
 void valve_init(void)

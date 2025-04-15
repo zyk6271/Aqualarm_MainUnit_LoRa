@@ -24,7 +24,7 @@ void rtc_thread_entry(void *parameter)
         if((++ valve_hours) % 120 == 0)
         {
             valve_hours = 0;
-            valve_check();
+            valve_check_start();
         }
         if(rtc_hours < 47)
         {
