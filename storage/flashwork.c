@@ -426,6 +426,7 @@ uint8_t aq_device_need_offline_check(uint8_t type)
 
 uint8_t aq_device_offline_find(void)
 {
+    uint8_t ret = 0;
     rt_slist_t *node;
     aqualarm_device_t *device = RT_NULL;
     rt_slist_for_each(node, &_device_list)
@@ -435,16 +436,16 @@ uint8_t aq_device_offline_find(void)
         {
             if(device->type == DEVICE_TYPE_DOORUNIT)
             {
-                return 2;//no need to close valve
+                ret |= 0x01;
             }
             else
             {
-                return 1;
+                ret |= 0x02;
             }
         }
     }
 
-    return 0;
+    return ret;
 }
 
 uint8_t aq_device_offline_upload(uint8_t *send_buf)
@@ -581,11 +582,11 @@ void aq_device_heart_check(void)
             }
         }
     }
-    if(aq_device_offline_find() != 0)
+    if(aq_device_offline_find() > 0)
     {
         gateway_warning_slaver_offline();
     }
-    if(aq_device_offline_find() == 1)
+    if(aq_device_offline_find() & 0x02)
     {
         warning_enable(SlaverOfflineEvent);
     }
