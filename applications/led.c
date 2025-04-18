@@ -67,22 +67,22 @@ static void gw_blue_off(void *param)
 
 static void off_red_on(void *param)
 {
-    ws2812b_red(2,1);
+    ws2812b_red(1,1);
 }
 
 static void off_red_off(void *param)
 {
-    ws2812b_red(2,0);
+    ws2812b_red(1,0);
 }
 
 static void on_green_on(void *param)
 {
-    ws2812b_green(1,1);
+    ws2812b_green(2,1);
 }
 
 static void on_green_off(void *param)
 {
-    ws2812b_green(1,0);
+    ws2812b_green(2,0);
 }
 
 static void beep_on(void *param)
@@ -233,19 +233,6 @@ void led_relearn(void)
 {
     led_set_mode(led_obj_off_red, 75,"200,200,");
     led_start(led_obj_off_red);
-}
-
-void led_valve_on_pause(void)
-{
-    led_stop(led_obj_on_green);
-}
-
-void led_valve_on_resume(void)
-{
-    if(get_valve_status())
-    {
-        led_start(led_obj_on_green);
-    }
 }
 
 void led_ntc_alarm(void)

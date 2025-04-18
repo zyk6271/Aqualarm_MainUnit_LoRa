@@ -36,7 +36,6 @@ void radio_learn_timer_callback(void* parameter)
     allow_add_device = 0;
     warning_all_clear();
     led_notice_once();
-    led_valve_on_resume();
     gateway_connect_start();
 }
 
@@ -69,7 +68,6 @@ void warning_event_bind(uint8_t warning_id,uint8_t priority,WariningEvent *event
 
 void SlaverLowPowerEventCallback(void *parameter)
 {
-    led_valve_on_pause();
     led_slave_low_start();
 }
 void SlaverUltraLowPowerEventCallback(void *parameter)
@@ -91,7 +89,6 @@ void SlaverSensorLeakEventCallback(void *parameter)
 }
 void MasterSensorLostEventCallback(void *parameter)
 {
-    led_valve_on_pause();
     led_master_lost_start();
     DeviceStatus = MasterSensorLost;
     gateway_warning_master_lost(1);
@@ -137,7 +134,6 @@ void valvefail_warning_disable(void)
 }
 void ValveLeftFailEventCallback(void *parameter)
 {
-    led_valve_on_pause();
     led_moto_fail_start();
     DeviceStatus = ValveLeftFail;
     gateway_warning_master_valve_check(3);
@@ -145,7 +141,6 @@ void ValveLeftFailEventCallback(void *parameter)
 
 void ValveRightFailEventCallback(void *parameter)
 {
-    led_valve_on_pause();
     led_moto_fail_start();
     DeviceStatus = ValveRightFail;
     gateway_warning_master_valve_check(4);
@@ -176,7 +171,6 @@ void warning_all_clear(void)
 {
     beep_stop();
     led_warn_off();
-    led_valve_on_resume();
     DeviceStatus = get_valve_status();
     rt_memset(&NowEvent, 0, sizeof(WariningEvent));
 }
@@ -188,7 +182,6 @@ void warning_lost_clear(void)
     {
         warning_all_clear();
         led_loss_off();
-        led_valve_on_resume();
     }
 }
 
@@ -212,7 +205,6 @@ void radio_start_learn_device(void)
 {
     if(DeviceStatus == ValveClose || DeviceStatus == ValveOpen)
     {
-        led_valve_on_pause();
         DeviceStatus = LearnDevice;
         allow_add_device = 1;
         led_learn_start();
@@ -224,7 +216,6 @@ void radio_start_learn_device(void)
         allow_add_device = 0;
         warning_all_clear();
         led_notice_once();
-        led_valve_on_resume();
         gateway_connect_start();
     }
     else
