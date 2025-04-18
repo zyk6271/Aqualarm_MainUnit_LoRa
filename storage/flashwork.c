@@ -412,19 +412,23 @@ void aq_device_rssi_level_set(uint32_t device_id,uint8_t rssi_level)
     }
 }
 
-uint8_t aq_device_need_offline_check(uint8_t type)
+uint8_t aq_device_endunit_offline_find(void)
 {
-    if(type != DEVICE_TYPE_GATEWAY)
+    rt_slist_t *node;
+    aqualarm_device_t *device = RT_NULL;
+    rt_slist_for_each(node, &_device_list)
     {
-        return 1;
+        device = rt_slist_entry(node, aqualarm_device_t, slist);
+        if(device->online == 0 && device->type == DEVICE_TYPE_ENDUNIT)
+        {
+            return 1;
+        }
     }
-    else
-    {
-        return 0;
-    }
+
+    return 0;
 }
 
-uint8_t aq_device_offline_find(void)
+uint8_t aq_device_door_offline_find(void)
 {
     uint8_t ret = 0;
     rt_slist_t *node;
@@ -432,20 +436,13 @@ uint8_t aq_device_offline_find(void)
     rt_slist_for_each(node, &_device_list)
     {
         device = rt_slist_entry(node, aqualarm_device_t, slist);
-        if(device->online == 0 && aq_device_need_offline_check(device->type) == 1)
+        if(device->online == 0 && device->type == DEVICE_TYPE_DOORUNIT)
         {
-            if(device->type == DEVICE_TYPE_DOORUNIT)
-            {
-                ret |= 0x01;
-            }
-            else
-            {
-                ret |= 0x02;
-            }
+            return 1;
         }
     }
 
-    return ret;
+    return 0;
 }
 
 uint8_t aq_device_offline_upload(uint8_t *send_buf)
@@ -582,12 +579,13 @@ void aq_device_heart_check(void)
             }
         }
     }
-    if(aq_device_offline_find() > 0)
+    if(aq_device_endunit_offline_find() > 0)
     {
         gateway_warning_slaver_offline();
-    }
-    if(aq_device_offline_find() & 0x02)
-    {
         warning_enable(SlaverOfflineEvent);
+    }
+    if(aq_device_door_offline_find() > 0)
+    {
+        gateway_warning_slaver_offline();
     }
 }
