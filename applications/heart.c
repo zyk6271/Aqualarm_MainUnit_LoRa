@@ -67,6 +67,7 @@ void heart_connect_timer_callback(void *parameter)
     if(aq_device_recv_find(aq_gateway_find()) == 1)
     {
         gateway_connect_done = 1;
+        wifi_led(1);
     }
     else
     {
@@ -96,7 +97,7 @@ void heart_thread_entry(void *parameter)
         }
         else
         {
-            wifi_led(1);//online
+            gateway_heart_upload_poweron();
         }
     }
     while (1)

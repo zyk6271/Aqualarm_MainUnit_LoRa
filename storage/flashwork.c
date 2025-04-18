@@ -414,7 +414,7 @@ void aq_device_rssi_level_set(uint32_t device_id,uint8_t rssi_level)
 
 uint8_t aq_device_need_offline_check(uint8_t type)
 {
-    if(type != DEVICE_TYPE_GATEWAY && type != DEVICE_TYPE_DOORUNIT && type != DEVICE_TYPE_MOTION_SENSOR)
+    if(type != DEVICE_TYPE_GATEWAY)
     {
         return 1;
     }
@@ -433,7 +433,14 @@ uint8_t aq_device_offline_find(void)
         device = rt_slist_entry(node, aqualarm_device_t, slist);
         if(device->online == 0 && aq_device_need_offline_check(device->type) == 1)
         {
-            return 1;
+            if(device->type == DEVICE_TYPE_DOORUNIT)
+            {
+                return 2;//no need to close valve
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 
@@ -574,9 +581,12 @@ void aq_device_heart_check(void)
             }
         }
     }
-    if(aq_device_offline_find())
+    if(aq_device_offline_find() != 0)
+    {
+        gateway_warning_slaver_offline();
+    }
+    if(aq_device_offline_find() == 1)
     {
         warning_enable(SlaverOfflineEvent);
-        gateway_warning_slaver_offline();
     }
 }
