@@ -142,6 +142,10 @@ static void radio_frame_endunit_parse_valve(rx_format *rx_frame,aqualarm_device_
             valve_close();
             gateway_control_slaver_control(rx_frame->source_addr,0,rx_frame->rssi_level);
         }
+        else if(DeviceStatus == SlaverOffline)
+        {
+            gateway_control_slaver_control(rx_frame->source_addr,0,rx_frame->rssi_level);
+        }
     }
 }
 
@@ -210,9 +214,6 @@ void radio_frame_endunit_parse(rx_format *rx_frame)
         return;
     }
 
-    aq_device_heart_recv(rx_frame);
-    warning_offline_check();
-
     uint8_t command = rx_frame->rx_data[0];
     switch(command)
     {
@@ -228,6 +229,9 @@ void radio_frame_endunit_parse(rx_format *rx_frame)
     default:
         break;
     }
+
+    aq_device_heart_recv(rx_frame);
+    warning_offline_check();
 }
 
 //transmit

@@ -122,6 +122,10 @@ static void radio_frame_doorunit_parse_valve(rx_format *rx_frame,aqualarm_device
             valve_close();
             gateway_control_door_control(rx_frame->source_addr,0,rx_frame->rssi_level);
         }
+        else if(DeviceStatus == SlaverOffline)
+        {
+            gateway_control_door_control(rx_frame->source_addr,0,rx_frame->rssi_level);
+        }
         break;
     case 1://valve open
         if(DeviceStatus == ValveClose || DeviceStatus == ValveOpen)
