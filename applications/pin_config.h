@@ -19,8 +19,8 @@
 /*
  * ANT
  */
-#define ANT_INT_PIN                     9
-#define ANT_EXT_PIN                     8
+#define ANT_INT_PIN                     8
+#define ANT_EXT_PIN                     9
 #define ANT_SW_PIN                      0
 /*
  * SENSOR
