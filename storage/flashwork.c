@@ -430,7 +430,6 @@ uint8_t aq_device_endunit_offline_find(void)
 
 uint8_t aq_device_door_offline_find(void)
 {
-    uint8_t ret = 0;
     rt_slist_t *node;
     aqualarm_device_t *device = RT_NULL;
     rt_slist_for_each(node, &_device_list)
