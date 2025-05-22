@@ -161,10 +161,7 @@ void radio_frame_gateway_parse(rx_format *rx_frame)
         return;
     }
 
-    if(gateway_connect_done_read() == 1)
-    {
-        wifi_led(1);
-    }
+    wifi_led(1);
     aq_device_recv_set(rx_frame->source_addr,1);
 
     switch(rx_frame->rx_data[0])//command
